@@ -1,18 +1,34 @@
-using GoogleMobileAds.Api;
 using UnityEngine;
-using UnityEngine.Advertisements;
+using GoogleMobileAds.Api;
+using System.Collections.Generic;
 
 public class RewardedAdManager : MonoBehaviour
 {
     private RewardedAd rewardedAd;
 
-    public string androidAdUnitId;
+    private string _adUnitId = "ca-app-pub-8555118095078573/8113395550";
 
     public static event System.Action OnRewardGranted;
+
+    private static readonly Queue<System.Action> _mainThreadQueue = new Queue<System.Action>();
 
     void Start()
     {
         LoadAd();
+    }
+
+    void Update()
+    {
+        // Execute any queued actions on the main thread
+        while (_mainThreadQueue.Count > 0)
+        {
+            _mainThreadQueue.Dequeue().Invoke();
+        }
+    }
+
+    private void RunOnMainThread(System.Action action)
+    {
+        _mainThreadQueue.Enqueue(action);
     }
 
     public void LoadAd()
@@ -25,7 +41,7 @@ public class RewardedAdManager : MonoBehaviour
 
         AdRequest request = new AdRequest();
 
-        RewardedAd.Load(androidAdUnitId, request, (RewardedAd ad, LoadAdError error) =>
+        RewardedAd.Load(_adUnitId, request, (RewardedAd ad, LoadAdError error) =>
         {
             if (error != null)
             {
@@ -46,7 +62,10 @@ public class RewardedAdManager : MonoBehaviour
             rewardedAd.Show((Reward reward) =>
             {
                 Debug.Log("Reward Granted!");
-                OnRewardGranted?.Invoke();
+                RunOnMainThread(() =>
+                {
+                    OnRewardGranted?.Invoke();
+                });
             });
         }
         else
@@ -66,16 +85,24 @@ public class RewardedAdManager : MonoBehaviour
         ad.OnAdFullScreenContentClosed += () =>
         {
             Debug.Log("Rewarded Ad Closed");
+            RunOnMainThread(() =>
+            {
+                LoadAd();
+            });
         };
 
         ad.OnAdFullScreenContentFailed += (AdError error) =>
         {
             Debug.Log($"Rewarded Ad Failed to Show: {error.GetMessage()}");
+            RunOnMainThread(() =>
+            {
+                LoadAd();
+            });
         };
     }
 
     void OnDestroy()
     {
-        rewardedAd?.Destroy();   
+        rewardedAd?.Destroy();
     }
 }

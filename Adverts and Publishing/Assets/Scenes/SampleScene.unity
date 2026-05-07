@@ -422,7 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 485d485ddd3cb0d4dbdd5e6b5ad8f19d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RewardedAd
-  androidAdUnitId: Rewarded_Android
+  androidAdUnitId: ca-app-pub-8555118095078573/8113395550
 --- !u!1 &49358051
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,6 +570,7 @@ GameObject:
   m_Component:
   - component: {fileID: 116034244}
   - component: {fileID: 116034243}
+  - component: {fileID: 116034245}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -611,6 +612,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &116034245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116034242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 811f2efe791102845a27319b66832cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::test
 --- !u!1 &183514724
 GameObject:
   m_ObjectHideFlags: 0

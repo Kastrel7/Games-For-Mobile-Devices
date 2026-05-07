@@ -6,7 +6,7 @@ public class InterstitialAdManager : MonoBehaviour
 {
     private InterstitialAd interstitialAd;
 
-    public string androidAdUnitId;
+    public string androidAdUnitId = "ca-app-pub-8555118095078573/2150622432";
 
     void Start()
     {

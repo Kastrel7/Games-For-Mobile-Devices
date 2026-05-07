@@ -4,7 +4,7 @@ using UnityEngine.Advertisements;
 
 public class BannerAdManager : MonoBehaviour
 {
-    public string androidAdUnitId;
+    public string androidAdUnitId = "ca-app-pub-8555118095078573/6915863950";
     private BannerView bannerView;
 
     void Start()
